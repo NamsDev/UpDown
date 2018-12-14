@@ -113,6 +113,71 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &109867462 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4897172912325138, guid: 36eb7a266e08d364fa814a4dfe5951e2,
+    type: 2}
+  m_PrefabInternal: {fileID: 856281823}
+--- !u!1 &354028372
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 354028375}
+  - component: {fileID: 354028374}
+  - component: {fileID: 354028373}
+  m_Layer: 0
+  m_Name: yinyanplateform
+  m_TagString: Untagged
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &354028373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 354028372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce6de104f85e1ef43a5f05ced8ffd73d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yin: {fileID: 109867462}
+  yan: {fileID: 1304606250}
+--- !u!68 &354028374
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 354028372}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.5, y: 0}
+  - {x: 0.5, y: 0}
+--- !u!4 &354028375
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 354028372}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.25, y: 0.625, z: 0.019160766}
+  m_LocalScale: {x: 0.4, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &856281823
 Prefab:
   m_ObjectHideFlags: 0
@@ -196,66 +261,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1031106891071432, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}
       propertyPath: m_Name
-      value: yan
-      objectReference: {fileID: 0}
-    - target: {fileID: 4897172912325138, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}
-      propertyPath: m_LocalScale.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 50481624824394836, guid: 36eb7a266e08d364fa814a4dfe5951e2,
-        type: 2}
-      propertyPath: m_GravityScale
-      value: -1
+      value: Yan
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &1142525011
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1142525013}
-  - component: {fileID: 1142525012}
-  m_Layer: 0
-  m_Name: plateforme
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!68 &1142525012
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1142525011}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -0.5, y: 0}
-  - {x: 0.5, y: 0}
---- !u!4 &1142525013
+--- !u!4 &1304606250 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1142525011}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.069, y: 0.775, z: 0.019160766}
-  m_LocalScale: {x: 5.73, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_CorrespondingSourceObject: {fileID: 4897172912325138, guid: 36eb7a266e08d364fa814a4dfe5951e2,
+    type: 2}
+  m_PrefabInternal: {fileID: 1031484622}
 --- !u!1 &1570545861
 GameObject:
   m_ObjectHideFlags: 0
