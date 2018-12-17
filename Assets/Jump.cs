@@ -18,7 +18,8 @@ public class Jump : StateMachineBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             caracController.Jump();
-        }
+			animator.SetTrigger("toJump");
+		}
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

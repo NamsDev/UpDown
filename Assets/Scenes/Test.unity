@@ -217,24 +217,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114852035965579042, guid: 36eb7a266e08d364fa814a4dfe5951e2,
-        type: 2}
-      propertyPath: isReversed
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4897172912325138, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 50481624824394836, guid: 36eb7a266e08d364fa814a4dfe5951e2,
         type: 2}
       propertyPath: m_GravityScale
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114852035965579042, guid: 36eb7a266e08d364fa814a4dfe5951e2,
-        type: 2}
-      propertyPath: acceleration
-      value: 400
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}
@@ -282,14 +268,19 @@ Prefab:
       propertyPath: m_Name
       value: Yan
       objectReference: {fileID: 0}
+    - target: {fileID: 4897172912325138, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}
+      propertyPath: m_LocalScale.y
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 114852035965579042, guid: 36eb7a266e08d364fa814a4dfe5951e2,
         type: 2}
       propertyPath: isReversed
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4897172912325138, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}
-      propertyPath: m_LocalScale.y
-      value: -1
+    - target: {fileID: 95795903886279098, guid: 36eb7a266e08d364fa814a4dfe5951e2,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}
@@ -347,7 +338,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 3
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
