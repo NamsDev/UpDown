@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 5
-  acceleration: 400
+  acceleration: 300
   jumpForce: 4
   isReversed: 0
 --- !u!212 &212175158651522828
