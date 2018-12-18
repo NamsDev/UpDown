@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RGCharacterController : MonoBehaviour
 {
@@ -9,16 +7,24 @@ public class RGCharacterController : MonoBehaviour
     public float jumpForce = 1;
 	public bool isReversed;
 
-	private Rigidbody2D rigidbody;
+    public Transform groundCheck;
+    public float radius;
+    public LayerMask whatIsGround;
+
+    private new Rigidbody2D rigidbody;
+    private Animator animator;
 
 	// Use this for initialization
 	void Start () {
         rigidbody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 	
 	// Update is called once per frame
-	void Update () {
-	}
+	void FixedUpdate ()
+    {
+        //animator.SetFloat("moveSpeed", Mathf.Abs(rigidbody.velocity.x));
+    }
 
     public void Jump()
     {

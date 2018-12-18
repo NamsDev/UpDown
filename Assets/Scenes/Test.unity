@@ -131,7 +131,7 @@ GameObject:
   m_Layer: 0
   m_Name: yinyanplateform
   m_TagString: Untagged
-  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -231,10 +231,13 @@ Prefab:
       propertyPath: m_GravityScale
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114852035965579042, guid: 36eb7a266e08d364fa814a4dfe5951e2,
-        type: 2}
-      propertyPath: acceleration
-      value: 400
+    - target: {fileID: 1031106891071432, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1464649515783598, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}
@@ -290,6 +293,14 @@ Prefab:
     - target: {fileID: 4897172912325138, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}
       propertyPath: m_LocalScale.y
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031106891071432, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1464649515783598, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36eb7a266e08d364fa814a4dfe5951e2, type: 2}

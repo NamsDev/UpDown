@@ -2,24 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Jump : StateMachineBehaviour
-{
+public class CheckGround : StateMachineBehaviour {
+
     RGCharacterController caracController;
+    Transform groundCheck;
+    float groundCheckRadius;
+    LayerMask whatIsGround;
+
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         caracController = animator.GetComponent<RGCharacterController>();
-
+        groundCheck = caracController.groundCheck;
+        groundCheckRadius = caracController.radius;
+        whatIsGround = caracController.whatIsGround;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Input.GetButtonDown("Jump"))
-        {
-            caracController.Jump();
-            animator.SetTrigger("toJump");
-        }
+        bool grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+        if (grounded)
+            animator.SetTrigger("toIdle");
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
