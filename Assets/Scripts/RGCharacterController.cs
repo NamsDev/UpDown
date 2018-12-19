@@ -3,71 +3,94 @@ using UnityEngine;
 
 public class RGCharacterController : MonoBehaviour
 {
-	public float maxSpeed = 3;
-	public float acceleration = 1;
-	public float jumpForce = 1;
-	public bool isReversed;
+    //used for movement
+    public float maxSpeed = 3;
+    public float maxDownSpeed = 0f;
 
-	public Transform groundCheck;
-	public float radius;
-	public LayerMask whatIsGround;
+    public float acceleration = 1;
+    public float jumpForce = 1;
 
-	private Animator animator;
-	private Rigidbody2D rigidbody;
-	private bool isFacingRight = true;
+    public bool isReversed;
+    private int isReversedInt;
 
-	// Use this for initialization
-	void Start()
-	{
-		rigidbody = GetComponent<Rigidbody2D>();
-		animator = GetComponent<Animator>();
-	}
+    private bool isFacingRight = true;
+    private Vector2 storedForce;
+    private Vector2 currentVelocity;
+    private Vector2 oldVelocity;
 
+    //used for ground check
+    public Transform groundCheck;
+    public float radius;
+    public LayerMask whatIsGround;
 
-	void FixedUpdate()
-	{
-		Debug.Log(rigidbody.velocity + "   FU");
-	}
+    private Animator animator;
+    private new Rigidbody2D rigidbody;
 
-	// Update is called once per frame
-	void Update()
-	{
-		Debug.Log(rigidbody.velocity + "   U");
+    // Use this for initialization
+    void Start()
+    {
+        rigidbody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        isReversedInt = isReversed ? -1 : 1;
 
-		if ((rigidbody.velocity.x < 0 && isFacingRight) || (rigidbody.velocity.x > 0 && !isFacingRight))
-		{
-			SwapSide();
-		}
-		animator.SetFloat("xSpeed", Mathf.Abs(rigidbody.velocity.x));
-		animator.SetFloat("ySpeed", rigidbody.velocity.y * (isReversed ? -1 : 1));
-	}
+    }
 
-	public void Jump()
-	{
-		rigidbody.AddForce(jumpForce * Vector2.up * (isReversed ? -1 : 1), ForceMode2D.Impulse);
-	}
+    void FixedUpdate()
+    {
+        Debug.Log(currentVelocity);
+        Debug.Log(isReversedInt);
+        Debug.Log(currentVelocity);
 
-	public void Move(float input) //ratio is [-1:1]
-	{
-		//if (Mathf.Abs(rigidbody.velocity.x) < maxSpeed * Mathf.Abs(input))
-		{
-			rigidbody.AddForce(input * acceleration * Vector2.right);
-		}
-
-		Debug.Log(rigidbody.velocity + "   SU");
-
-	}
-
-	private void SwapSide()
-	{
-		transform.localScale = Vector3.Scale(transform.localScale, new Vector3(-1, 1, 1));
-		isFacingRight = !isFacingRight;
-	}
+        //if (currentVelocity.y * isReversedInt > -maxDownSpeed)
+        //    storedForce += Globals.gravity * Time.fixedDeltaTime * (isReversed ? Vector2.down : Vector2.up);
 
 
-	void OnDrawGizmosSelected()
-	{
-		Handles.color = Color.green;
-		Handles.DrawWireDisc(groundCheck.position, groundCheck.transform.forward, radius);
-	}
+        currentVelocity = currentVelocity + storedForce * Time.fixedDeltaTime;
+        ApplyMovement(ref currentVelocity);
+
+        storedForce = Vector2.zero;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if ((currentVelocity.x < 0 && isFacingRight) || (currentVelocity.x > 0 && !isFacingRight))
+        {
+            SwapSide();
+        }
+        animator.SetFloat("xSpeed", Mathf.Abs(rigidbody.velocity.x));
+        animator.SetFloat("ySpeed", rigidbody.velocity.y * isReversedInt);
+    }
+
+    public void Jump()
+    {
+        storedForce += jumpForce * Vector2.up * (isReversed ? -1 : 1);
+    }
+
+    public void Move(float input) //ratio is [-1:1]
+    {
+        if (Mathf.Abs(currentVelocity.x) < maxSpeed * Mathf.Abs(input))
+        {
+            storedForce += input * acceleration * Vector2.right * Time.deltaTime;
+        }
+    }
+
+    private void SwapSide()
+    {
+        transform.localScale = Vector3.Scale(transform.localScale, new Vector3(-1, 1, 1));
+        isFacingRight = !isFacingRight;
+    }
+
+    private void ApplyMovement(ref Vector2 velocity)
+    {
+        rigidbody.MovePosition(rigidbody.position + velocity);
+
+    }
+
+
+    void OnDrawGizmosSelected()
+    {
+        Handles.color = Color.green;
+        Handles.DrawWireDisc(groundCheck.position, groundCheck.transform.forward, radius);
+    }
 }
