@@ -11,12 +11,10 @@ public class RGCharacterController : MonoBehaviour
 	public float jumpForce = 1;
 
 	public bool isReversed;
-	private int isReversedInt;
+	private int isReversedInt { get { return isReversed ? -1 : 1; } }
 
 	private bool isFacingRight = true;
-	private Vector2 storedForce;
-	private Vector2 currentVelocity;
-	private Vector2 oldVelocity;
+	private Vector2 addedVelocity;
 
 	//used for ground check
 	public Transform groundCheck;
@@ -31,15 +29,17 @@ public class RGCharacterController : MonoBehaviour
 	{
 		rigidbody = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
-		isReversedInt = isReversed ? -1 : 1;
 
 	}
 
 	void FixedUpdate()
 	{
-		storedForce = Vector2.zero;
+		rigidbody.velocity += addedVelocity;
+		addedVelocity = Vector2.zero;
+	}
 
-
+	void Update()
+	{
 		if ((rigidbody.velocity.x < 0 && isFacingRight) || (rigidbody.velocity.x > 0 && !isFacingRight))
 		{
 			SwapSide();
@@ -51,7 +51,7 @@ public class RGCharacterController : MonoBehaviour
 
 	public void Jump()
 	{
-		rigidbody.velocity += jumpForce * Vector2.up * isReversedInt;
+		addedVelocity += jumpForce * Vector2.up * isReversedInt;
 	}
 
 	public void Move(float input)
@@ -60,14 +60,14 @@ public class RGCharacterController : MonoBehaviour
 		if (input == 0)
 			return;
 
-		var addedSpeed = input * acceleration * Time.fixedDeltaTime;
-		if ((rigidbody.velocity.x  + addedSpeed) / input < maxSpeed)
+		var addedSpeed = input * acceleration * Time.deltaTime;
+		if ((rigidbody.velocity.x + addedVelocity.x + addedSpeed) / input < maxSpeed)
 		{
-			rigidbody.velocity += addedSpeed * Vector2.right;
+			addedVelocity += addedSpeed * Vector2.right;
 		}
 		else
 		{
-			rigidbody.velocity = new Vector2(input * maxSpeed, rigidbody.velocity.y);
+			//addedVelocity = new Vector2(input * maxSpeed, rigidbody.velocity.y);
 		}
 	}
 

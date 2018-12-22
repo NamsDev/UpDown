@@ -150,7 +150,7 @@ MonoBehaviour:
   maxSpeed: 5
   maxDownSpeed: 0.5
   acceleration: 200
-  jumpForce: 4
+  jumpForce: 5
   isReversed: 0
   groundCheck: {fileID: 4880654577023352}
   radius: 0.18
