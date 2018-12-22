@@ -10,10 +10,12 @@ public class Move : StateMachineBehaviour {
     {
         caracController = animator.GetComponent<RGCharacterController>();
 
-    }
+		//we want it to be called on the first frame of the state 
+		OnStateUpdate(animator, stateInfo, layerIndex);
+	}
 
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         float input = Input.GetAxis("Horizontal");
         caracController.Move(input);
