@@ -36,12 +36,15 @@ public class ResetAtCheckPoint : MonoBehaviour
 
 	public void SpawnAtCP(int cp)
 	{
+		if (cp == -1)
+			cp = currentCheckpoint;
+
 		//reset players velocity
 		playerUp.GetComponent<RGCharacterController>().Reset();
 		playerDown.GetComponent<RGCharacterController>().Reset();
 
 		//set position
-		var CP = transform.Find("Checkpoint (" + cp +")");
+		var CP = transform.Find("Checkpoint (" + cp + ")");
 		if (CP == null)
 		{
 			Debug.Log("There is no CP" + cp);
