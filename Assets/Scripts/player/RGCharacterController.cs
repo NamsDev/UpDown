@@ -25,11 +25,17 @@ public class RGCharacterController : MonoBehaviour
 	private new Rigidbody2D rigidbody;
 
 	// Use this for initialization
-	void Start()
+	void Awake()
 	{
 		rigidbody = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
 
+	}
+
+	public void Reset()
+	{
+		rigidbody.velocity = Vector2.zero;
+		animator.Rebind();
 	}
 
 	void FixedUpdate()
