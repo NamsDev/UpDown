@@ -14,6 +14,7 @@ public class CharacterController2D : MonoBehaviour
 		public Vector3 topLeft;
 		public Vector3 bottomRight;
 		public Vector3 bottomLeft;
+		public Vector3 topRight;
 	}
 
 	public class CharacterCollisionState2D
@@ -241,6 +242,16 @@ public class CharacterController2D : MonoBehaviour
 
 
 	#region Public
+	/// <summary>
+	/// attempts to move the character to position + deltaMovement. Any colliders in the way will cause the movement to
+	/// stop when run into.
+	/// </summary>
+	/// <param name="deltaMovement">Delta movement.</param>
+	public void Reset()
+	{
+		velocity = Vector2.zero;
+	}
+
 
 	/// <summary>
 	/// attempts to move the character to position + deltaMovement. Any colliders in the way will cause the movement to
@@ -348,6 +359,7 @@ public class CharacterController2D : MonoBehaviour
 		_raycastOrigins.topLeft = new Vector2(modifiedBounds.min.x, modifiedBounds.max.y);
 		_raycastOrigins.bottomRight = new Vector2(modifiedBounds.max.x, modifiedBounds.min.y);
 		_raycastOrigins.bottomLeft = modifiedBounds.min;
+		_raycastOrigins.topRight = modifiedBounds.max;
 	}
 
 
@@ -366,13 +378,15 @@ public class CharacterController2D : MonoBehaviour
 
 		for (var i = 0; i < totalHorizontalRays; i++)
 		{
-			var ray = new Vector2(initialRayOrigin.x, initialRayOrigin.y + i * _verticalDistanceBetweenRays);
+			var _i = isReversed ? totalHorizontalRays - i - 1 : i;
+
+			var ray = new Vector2(initialRayOrigin.x, initialRayOrigin.y + _i * _verticalDistanceBetweenRays);
 
 			DrawRay(ray, rayDirection * rayDistance, Color.red);
 
 			// if we are grounded we will include oneWayPlatforms only on the first ray (the bottom one). this will allow us to
 			// walk up sloped oneWayPlatforms
-			if (i == 0 && collisionState.wasGroundedLastFrame)
+			if (_i == 0 && collisionState.wasGroundedLastFrame)
 				_raycastHit = Physics2D.Raycast(ray, rayDirection, rayDistance, platformMask);
 			else
 				_raycastHit = Physics2D.Raycast(ray, rayDirection, rayDistance, platformMask & ~oneWayPlatformMask);
@@ -380,7 +394,7 @@ public class CharacterController2D : MonoBehaviour
 			if (_raycastHit)
 			{
 				// the bottom ray can hit a slope but no other ray can so we have special handling for these cases
-				if (i == 0 && handleHorizontalSlope(ref deltaMovement, Vector2.Angle(_raycastHit.normal, Vector2.up)))
+				if (i == 0 && handleHorizontalSlope(ref deltaMovement, Vector2.Angle(_raycastHit.normal, isReversed ? Vector2.down : Vector2.up)))
 				{
 					_raycastHitsThisFrame.Add(_raycastHit);
 					// if we weren't grounded last frame, that means we're landing on a slope horizontally.
@@ -395,9 +409,10 @@ public class CharacterController2D : MonoBehaviour
 
 				// set our new deltaMovement and recalculate the rayDistance taking it into account
 				deltaMovement.x = _raycastHit.point.x - ray.x;
+
 				rayDistance = Mathf.Abs(deltaMovement.x);
 
-				// remember to remove the skinWidth from our deltaMovement
+				//remember to remove the skinWidth from our deltaMovement
 				if (isGoingRight)
 				{
 					deltaMovement.x -= _skinWidth;
@@ -437,7 +452,8 @@ public class CharacterController2D : MonoBehaviour
 		{
 			// we only need to adjust the deltaMovement if we are not jumping
 			// TODO: this uses a magic number which isn't ideal! The alternative is to have the user pass in if there is a jump this frame
-			if (deltaMovement.y * isReversedInt < jumpingThreshold)
+			if ((!isReversed && (deltaMovement.y < jumpingThreshold))
+				|| (isReversed && (deltaMovement.y > -jumpingThreshold)))
 			{
 				// apply the slopeModifier to slow our movement up the slope
 				var slopeModifier = slopeSpeedMultiplier.Evaluate(angle);
@@ -446,12 +462,17 @@ public class CharacterController2D : MonoBehaviour
 				// we dont set collisions on the sides for this since a slope is not technically a side collision.
 				// smooth y movement when we climb. we make the y movement equivalent to the actual y location that corresponds
 				// to our new x location using our good friend Pythagoras
-				deltaMovement.y = Mathf.Abs(Mathf.Tan(angle * Mathf.Deg2Rad) * deltaMovement.x);
+				deltaMovement.y = Mathf.Abs(Mathf.Tan(angle * Mathf.Deg2Rad) * deltaMovement.x) * isReversedInt;
 				var isGoingRight = deltaMovement.x > 0;
 
 				// safety check. we fire a ray in the direction of movement just in case the diagonal we calculated above ends up
 				// going through a wall. if the ray hits, we back off the horizontal movement to stay in bounds.
-				var ray = isGoingRight ? _raycastOrigins.bottomRight : _raycastOrigins.bottomLeft;
+				Vector3 ray;
+				if (isReversed)
+					ray = isGoingRight ? _raycastOrigins.bottomRight : _raycastOrigins.bottomLeft;
+				else
+					ray = isGoingRight ? _raycastOrigins.topRight : _raycastOrigins.topLeft;
+
 				RaycastHit2D raycastHit;
 				if (collisionState.wasGroundedLastFrame)
 					raycastHit = Physics2D.Raycast(ray, deltaMovement.normalized, deltaMovement.magnitude, platformMask);
@@ -486,6 +507,7 @@ public class CharacterController2D : MonoBehaviour
 		var isGoingUp = deltaMovement.y > 0;
 		var rayDistance = Mathf.Abs(deltaMovement.y) + _skinWidth;
 		var rayDirection = isGoingUp ? Vector2.up : -Vector2.up;
+
 		var initialRayOrigin = isGoingUp ? _raycastOrigins.topLeft : _raycastOrigins.bottomLeft;
 
 		// apply our horizontal deltaMovement here so that we do our raycast from the actual position we would be in if we had moved
@@ -545,12 +567,13 @@ public class CharacterController2D : MonoBehaviour
 	{
 		// slope check from the center of our collider
 		var centerOfCollider = (_raycastOrigins.bottomLeft.x + _raycastOrigins.bottomRight.x) * 0.5f;
-		var rayDirection = -Vector2.up;
+		var rayDirection = -Vector2.up * isReversedInt;
 
 		// the ray distance is based on our slopeLimit
 		var slopeCheckRayDistance = _slopeLimitTangent * (_raycastOrigins.bottomRight.x - centerOfCollider);
 
-		var slopeRay = new Vector2(centerOfCollider, _raycastOrigins.bottomLeft.y);
+		var slopeRay = new Vector2(centerOfCollider, isReversed ? _raycastOrigins.topLeft.y : _raycastOrigins.bottomLeft.y);
+
 		DrawRay(slopeRay, rayDirection * slopeCheckRayDistance, Color.yellow);
 		_raycastHit = Physics2D.Raycast(slopeRay, rayDirection, slopeCheckRayDistance, platformMask);
 		if (_raycastHit)

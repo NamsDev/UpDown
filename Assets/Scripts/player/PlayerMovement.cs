@@ -19,9 +19,9 @@ public class PlayerMovement : MonoBehaviour {
 	[SerializeField]
 	public float jumpHeight = 3f;
 
-	[SerializeField]
-	private bool _isReversed;
-	private int isReversedInt { get { return _isReversed ? -1 : 1; } }
+	//[SerializeField]
+	public bool isReversed;
+	private int isReversedInt { get { return isReversed ? -1 : 1; } }
 
 	//internal state
 	private Vector2 _velocity;
@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	void Start()
 	{
-		_controller.isReversed = _isReversed;
+		_controller.isReversed = isReversed;
 	}
 
 
@@ -59,6 +59,10 @@ public class PlayerMovement : MonoBehaviour {
 		_animator.SetFloat("ySpeed", _velocity.y * isReversedInt);
 	}
 
+	public void Reset()
+	{
+		_controller.Reset();
+	}
 
 	public void HandleHorizontalInput(float input)
 	{
@@ -70,7 +74,6 @@ public class PlayerMovement : MonoBehaviour {
 	public void Jump()
 	{
 		_velocity.y = Mathf.Sqrt(2f * jumpHeight * -gravity) * isReversedInt;
-		Debug.Log(_velocity.y);
 	}
 
 	public void Duck()

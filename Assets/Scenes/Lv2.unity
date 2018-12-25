@@ -1427,6 +1427,15 @@ Prefab:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4795968879180796, guid: 6951a54abdaea9f4a9146e522736d8bf, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -2.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 114157932751656064, guid: 6951a54abdaea9f4a9146e522736d8bf,
+        type: 2}
+      propertyPath: isReversed
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6951a54abdaea9f4a9146e522736d8bf, type: 2}
   m_IsPrefabAsset: 0

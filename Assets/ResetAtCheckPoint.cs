@@ -14,7 +14,7 @@ public class ResetAtCheckPoint : MonoBehaviour
 
 		foreach (var player in players)
 		{
-			if (player.GetComponent<RGCharacterController>().isReversed)
+			if (player.GetComponent<PlayerMovement>().isReversed)
 				playerDown = player.transform;
 			else
 				playerUp = player.transform;
@@ -40,8 +40,8 @@ public class ResetAtCheckPoint : MonoBehaviour
 			cp = currentCheckpoint;
 
 		//reset players velocity
-		playerUp.GetComponent<RGCharacterController>().Reset();
-		playerDown.GetComponent<RGCharacterController>().Reset();
+		playerUp.GetComponent<PlayerMovement>().Reset();
+		playerDown.GetComponent<PlayerMovement>().Reset();
 
 		//set position
 		var CP = transform.Find("Checkpoint (" + cp + ")");
