@@ -4,26 +4,28 @@ using UnityEngine;
 
 public class CheckGround : StateMachineBehaviour {
 
-    RGCharacterController caracController;
-    Transform groundCheck;
-    float groundCheckRadius;
-    LayerMask whatIsGround;
+    CharacterController2D _caracController;
+    //Transform groundCheck;
+    //float groundCheckRadius;
+    //LayerMask whatIsGround;
 
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        caracController = animator.GetComponent<RGCharacterController>();
-        groundCheck = caracController.groundCheck;
-        groundCheckRadius = caracController.radius;
-        whatIsGround = caracController.whatIsGround;
-    }
+		_caracController = animator.GetComponent<CharacterController2D>();
+		//groundCheck = caracController.groundCheck;
+		//groundCheckRadius = caracController.radius;
+		//whatIsGround = caracController.whatIsGround;
 
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		OnStateUpdate(animator, stateInfo, layerIndex);
+	}
+
+	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        bool grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
-        if (grounded)
+        //bool grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+        if (_caracController.isGrounded)
             animator.SetTrigger("toIdle");
     }
 

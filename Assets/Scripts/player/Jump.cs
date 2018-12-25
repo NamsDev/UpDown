@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Jump : StateMachineBehaviour
 {
-    RGCharacterController caracController;
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+	private PlayerMovement PlayerMovement;
+	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        caracController = animator.GetComponent<RGCharacterController>();
+		PlayerMovement = animator.GetComponent<PlayerMovement>();
 
 		OnStateUpdate(animator, stateInfo, layerIndex);
 	}
@@ -18,7 +18,7 @@ public class Jump : StateMachineBehaviour
     {
         if (Input.GetButtonDown("Jump"))
         {
-            caracController.Jump();
+			PlayerMovement.Jump();
             animator.SetTrigger("toJump");
         }
     }
