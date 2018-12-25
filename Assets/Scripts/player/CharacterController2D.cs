@@ -213,6 +213,7 @@ public class CharacterController2D : MonoBehaviour
 
 	public void OnTriggerEnter2D(Collider2D col)
 	{
+		Debug.Log("fsdfsd");
 		if (onTriggerEnterEvent != null)
 			onTriggerEnterEvent(col);
 	}

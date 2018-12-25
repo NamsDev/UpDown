@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Die : MonoBehaviour {
-
+	
 	void OnCollisionEnter2D(Collision2D col)
 	{
 		if (col.gameObject.layer == LayerMask.NameToLayer("Lethal"))
@@ -11,5 +11,4 @@ public class Die : MonoBehaviour {
 			GlobalEventSystem.OnPlayerDies.Invoke();
 		}
 	}
-
 }
